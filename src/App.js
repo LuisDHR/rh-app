@@ -5,6 +5,7 @@ import GuardRoute from './route/guardRoute'
 import Login from './containers/Login'
 import MainRh from './layout/mainRh'
 import Users from './containers/Users'
+import UsersInfo from './containers/UsersInfo'
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
         />
         <GuardRoute 
           path="/rh/usersInfo"
-          component={ Users }
+          component={ UsersInfo }
           exact
           layout={ MainRh }
         />

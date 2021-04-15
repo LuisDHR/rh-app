@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   button: {
-		background: 'linear-gradient(to top, #0ba360 0%, #3cba92 100%)',
+    backgroundImage: 'linear-gradient(to top, #0ba360 0%, #3cba92 100%)',
     textTransform: 'none',
     fontFamily: 'Mulish, sans-serif',
     fontSize: '16px',
@@ -13,7 +13,11 @@ const useStyles = makeStyles((theme) => ({
     border: 'none',
     boxShadow: '0px 4px 4px rgba(51, 51, 51, 0.25)',
     minWidth: '200px',
+    '&:hover': {
+			backgroundImage: 'linear-gradient(to top, #0ba360 0%, #3cba92 50%)',
+		}
   }
+
 }));
 
 // const style = (block) => ({
@@ -32,7 +36,8 @@ const useStyles = makeStyles((theme) => ({
 
 const MainButton = (props) => {
     const classes = useStyles();
-    const { ...rest } = props;
+    const { full = false, ...rest } = props;
+
     return (
       // <button {...rest} style={style(block)} />
       <Button
@@ -41,6 +46,7 @@ const MainButton = (props) => {
         color="primary"
         variant="contained"
         type="submit"
+        fullWidth={ full }
       />
     )
 }

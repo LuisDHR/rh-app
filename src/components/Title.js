@@ -1,7 +1,7 @@
 const style = {
   color: '#606060',
   fontFamily: 'Mulish, sans-serif',
-  fontSize: '28px',
+  fontSize: '24px',
 }
 
 const Title = (props) => {
