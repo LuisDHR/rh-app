@@ -9,8 +9,8 @@ const style = (isFocused) => ({
   marginTop: '5px',
   marginBottom: '10px',
   outline: 'none',
-  padding: '10px 15px',
-  width: 'calc(100% - 32px)',
+  padding: '10px 10px',
+  width: '100%',
 })
 
 const spanStyle = {
@@ -20,8 +20,8 @@ const spanStyle = {
   fontWeight: 700,
 }
 
-const Input = props => {
-  const { input, label, ...rest } = props
+const ComboBox = props => {
+  const { label, ...rest } = props
 
   const [isFocused, setIsFocused] = useState(false)
 
@@ -36,15 +36,17 @@ const Input = props => {
   return (
     <div>
       <span style={spanStyle} >{label}</span>
-      <input 
-        {...input}
-        {...rest}
-        style={style(isFocused)} 
+      <select name="select" 
+        style={style(isFocused)}
         onFocus={ handleFocus }
         onBlur={ handleBlur }
-      />
+        {...rest}
+      >
+        <option value="ventas" defaultValue>ventas</option>
+        <option value="almacen">almacen</option>
+      </select>
     </div>
   )
 }
 
-export default Input
+export default ComboBox

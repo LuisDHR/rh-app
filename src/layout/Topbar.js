@@ -36,7 +36,7 @@ const Topbar = props => {
 
     const handleLogout = () => {
         localStorage.removeItem('user')
-        localStorage.removeItem('password')
+        window.location.reload()
         history.push('/login')
     };
 

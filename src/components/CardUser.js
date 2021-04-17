@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserEdit } from '@fortawesome/free-solid-svg-icons'
-import { IconButton } from '@material-ui/core';
+import { IconButton } from '@material-ui/core'
+import { useHistory } from "react-router"
 
 const style = {
   backgroundColor: '#ffffff',
@@ -18,13 +19,19 @@ const style = {
 }
 
 const CardUsers = (props) => {
-  const { user } = props;
+  const { user } = props
+  const history = useHistory()
+
+  const handleUpdate = () => {
+    history.push('/rh/users/' + user)
+  }
 
   return (
     <div style={style}>
       <p>{ user }</p>
       <IconButton
         color="inherit"
+        onClick={handleUpdate}
       >
         <FontAwesomeIcon icon={faUserEdit} />
       </IconButton>

@@ -6,6 +6,10 @@ import Login from './containers/Login'
 import MainRh from './layout/mainRh'
 import Users from './containers/Users'
 import UsersInfo from './containers/UsersInfo'
+import CreateUser from './containers/CreateUser'
+import UpdateUser from './containers/UpdateUser'
+import CreateUserInfo from './containers/CreateUserInfo'
+import UpdateUserInfo from './containers/UpdateUserInfo'
 
 function App() {
   return (
@@ -18,8 +22,32 @@ function App() {
           layout={ MainRh }
         />
         <GuardRoute 
+          path="/rh/users/new"
+          component={ CreateUser }
+          exact
+          layout={ MainRh }
+        />
+        <GuardRoute 
+          path="/rh/users/:user"
+          component={ UpdateUser }
+          exact
+          layout={ MainRh }
+        />
+        <GuardRoute 
           path="/rh/usersInfo"
           component={ UsersInfo }
+          exact
+          layout={ MainRh }
+        />
+        <GuardRoute 
+          path="/rh/usersInfo/new"
+          component={ CreateUserInfo }
+          exact
+          layout={ MainRh }
+        />
+        <GuardRoute 
+          path="/rh/usersInfo/:user/:email/:name/:role/:telephone"
+          component={ UpdateUserInfo }
           exact
           layout={ MainRh }
         />

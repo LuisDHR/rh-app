@@ -18,9 +18,9 @@ const Login = props => {
     const { user, password } = e.target.elements;
 
     localStorage.setItem("user", user.value)
-    localStorage.setItem("password", password.value)
 
     console.log(localStorage.getItem('user'))
+    // console.log(password)
 
     history.push('/rh/users')
   }
@@ -30,6 +30,8 @@ const Login = props => {
       <TopbarLogin />
       <Container center={true}>
         <Card>
+          <br />
+          <br />
           <Title>Iniciar sesión</Title>
           <form onSubmit={handleSubmit}>
             <Input 
@@ -44,7 +46,7 @@ const Login = props => {
             <br />
             <Input
               label='Contraseña' 
-              placeholder='Contraseña' 
+              placeholder='********' 
               name='password' 
               type='password'
               required
@@ -52,7 +54,8 @@ const Login = props => {
               value={ password }
             />
             <br /><br />
-            <MainButton fullWidth>Ingresar</MainButton>
+            <MainButton full={true}>Ingresar</MainButton>
+            <br /><br /><br />
           </form>
         </Card>
       </Container>

@@ -2,13 +2,15 @@ const style = {
   color: '#606060',
   fontFamily: 'Mulish, sans-serif',
   fontSize: '24px',
+  fontWeight: 800,
+  marginTop: 0
 }
 
 const Title = (props) => {
   const { children, ...rest } = props;
 
   return (
-    <h2 {...rest} style={style}>{ children } </h2>
+    <p {...rest} style={style}>{ children } </p>
   )
 }
   

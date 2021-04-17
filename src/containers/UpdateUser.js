@@ -1,0 +1,202 @@
+import { useState } from 'react'
+import Card from '../components/Card'
+import Title from '../components/Title'
+import Input from '../components/Input'
+import MainButton from '../components/Button'
+import SecondaryButton from '../components/SecondaryButton'
+import { 
+  Grid, Container, Dialog, DialogContent,
+  DialogTitle, Typography, DialogActions
+} from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+import { withRouter, useHistory } from "react-router"
+import { useParams } from 'react-router-dom'
+// import { useAlert } from 'react-alert'
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+      padding: theme.spacing(2),
+  },
+}));
+
+const style = {
+  text: {
+    color: '#777',
+    fontFamily: 'Mulish, sans-serif',
+    fontSize: '16px',
+    fontWeight: 800,
+  },
+  message: {
+    color: '#EA1601',
+    fontFamily: 'Mulish, sans-serif',
+    fontSize: '14px',
+    fontWeight: 600,
+  }
+}
+
+const UpdateUser = props => {
+  const history = useHistory()
+  const classes = useStyles()
+  // const alert = useAlert()
+  const { user } = useParams()
+
+  // const [user, setUser] = useState(localStorage.getItem('user'))
+  const [password, setPassword] = useState('')
+  const [newUser, setNewUser] = useState(user)
+  const [newPassword, setNewPassword] = useState('')
+
+  const [message, setMessage] = useState('')
+  const [open, setOpen] = useState(false)
+
+  const handleOk = () => {
+    setOpen(false)
+    history.goBack()
+  }
+
+  const handleCancel = () => {
+    setOpen(false)
+  }
+
+  const fieldsFilled = () => {
+    return (password === '' || newUser === '' || newPassword === '' ) ? true : false
+  }
+
+  const handleSubmit = () => {
+    if (fieldsFilled()) {
+      setMessage('Ingrese todos los datos solicitados.')
+      return
+    }
+    let alphanumeric = /[a-zA-Z0-9]/;
+    if (!alphanumeric.test(newUser)) {
+      setMessage('Nuevo usuario: solo alfanuméricos.')
+      return
+    }
+    if (/\s/.test(newUser)) {
+      setMessage('Nuevo usuario: no use espacios.')
+      return
+    }
+    if (newPassword.length < 8) {
+      setMessage('Nueva contraseña: mínimo 8 caracteres.')
+      return
+    }
+    if (!/[0-9]{1}/.test(newPassword)) {
+      setMessage('Nueva contraseña: mínimo 1 número.')
+      return
+    }
+    setMessage('')
+    setOpen(true)
+  }
+
+  const handleCancelar = () => {
+    // let msj = "502: Contraseña incorrecta: al menos 8 caracteres y al menos un número."
+    // let msj = '503: Usuario a insertar incorrecto: debe ser alfanumérico y sin espacios.'
+    // alert.error(<div style={{ textTransform: 'initial' }}>{msj}</div>)
+    history.goBack()
+  }
+
+  return (
+    <div className={classes.root}>
+      <Container maxWidth="lg">
+        <Grid
+          container
+          spacing={2}
+          direction="column"
+          justify="center"
+          alignItems="center"
+        >
+          <Grid item xs={12} sm={6}>
+            <Card >
+              <Title>Actualizar usuario</Title>
+                <p style={style.text}>Credenciales (usuario actual)</p>
+                <Input 
+                  label='Contraseña' 
+                  placeholder='********'
+                  name='password' 
+                  type='password'
+                  required
+                  onChange={e => setPassword(e.target.value)}
+                  value={ password }
+                />
+                <br />
+                <p style={style.text}>Nuevo usuario</p>
+                <Input
+                  label='Usuario' 
+                  placeholder='p.ej. pruebas1' 
+                  name='user' 
+                  type='text'
+                  required
+                  onChange={ e => setNewUser(e.target.value) }
+                  value={ newUser }
+                />
+                <Input
+                  label='Contraseña' 
+                  placeholder='********' 
+                  name='password' 
+                  type='password'
+                  required
+                  onChange={e => setNewPassword(e.target.value)}
+                  value={ newPassword }
+                />
+                <div className='info'>
+                  <small style={style.message}>{message}</small>
+                </div>
+                <br />
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between' 
+                }}>
+                  <MainButton 
+                    full={false}
+                    onClick={handleSubmit}
+                  >
+                    Guardar
+                  </MainButton>
+                  <SecondaryButton 
+                    full={false}
+                    onClick={handleCancelar}
+                  >
+                    Cancelar
+                  </SecondaryButton>
+                </div>
+            </Card>
+          </Grid>
+        </Grid>
+      </Container>
+      { open &&
+        <Dialog
+          disableBackdropClick disableEscapeKeyDown
+          maxWidth="xs" aria-labelledby="confirmation-dialog-title"
+          open={open}
+        >
+          <DialogTitle id="confirmation-dialog-title">
+            <Typography className={classes.dialogTitle}>
+              Confirmación
+            </Typography>
+          </DialogTitle>
+          <DialogContent dividers>
+            <Typography className={classes.text} justify="center">
+              ¿Está seguro de que desea guardar la información?
+            </Typography>
+          </DialogContent>
+          <DialogActions>
+            <MainButton
+              full={false}
+              onClick={handleOk}
+            >
+              Aceptar
+            </MainButton>
+            <SecondaryButton
+              full={false}
+              onClick={handleCancel}
+            >
+              Cancelar
+            </SecondaryButton>
+          </DialogActions>
+        </Dialog>
+      }
+    </div>
+  )
+}
+
+export default withRouter(UpdateUser)
