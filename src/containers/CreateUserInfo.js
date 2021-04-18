@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useLayoutEffect } from 'react'
 import Card from '../components/Card'
 import Title from '../components/Title'
 import Input from '../components/Input'
@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { withRouter, useHistory } from "react-router"
+import axios from 'axios'
 // import { useAlert } from 'react-alert'
 
 const useStyles = makeStyles((theme) => ({
@@ -51,7 +52,7 @@ const CreateUserInfo = props => {
   const classes = useStyles()
   // const alert = useAlert()
 
-  // const [user, setUser] = useState(localStorage.getItem('user'))
+  const [searchedUser, setSearchedUser] = useState('')
   const [password, setPassword] = useState('')
   const [correo, setCorreo] = useState('')
   const [nombre, setNombre] = useState('')
@@ -63,8 +64,12 @@ const CreateUserInfo = props => {
   const [open, setOpen] = useState(false)
   const [activeStep, setActiveStep] = useState(0)
 
+  useLayoutEffect(() => {
+    document.title = "RH Update user"
+  })
+
   const handleNext = () => {
-    if (password === '') {
+    if (password === '' || searchedUser === '') {
       setMessageA('Ingrese todos los datos solicitados.')
       return
     }
@@ -76,9 +81,27 @@ const CreateUserInfo = props => {
     setActiveStep(activeStep - 1);
   };
 
-  const handleOk = () => {
+  const handleOk = async () => {
+    let formData = new FormData()
+    formData.append("user", localStorage.getItem('user'))
+    formData.append("pass", password)
+    formData.append("searchedUser", searchedUser)
+    formData.append("correo", correo)
+    formData.append("nombre", nombre)
+    formData.append("rol", rol)
+    formData.append("telefono", telefono)
+
+    const url = 'http://localhost:80/serviciosweb/rh-app/createUserInfo.php'
+
+    await axios.post(url, formData)
+      .then(response => {
+        console.log(response)
+      })
+      .catch(error => {
+          console.log(error)
+      })
+    
     setOpen(false)
-    history.goBack()
   }
 
   const handleCancel = () => {
@@ -110,9 +133,6 @@ const CreateUserInfo = props => {
   }
 
   const handleCancelar = () => {
-    // let msj = "502: Contraseña incorrecta: al menos 8 caracteres y al menos un número."
-    // let msj = '503: Usuario a insertar incorrecto: debe ser alfanumérico y sin espacios.'
-    // alert.error(<div style={{ textTransform: 'initial' }}>{msj}</div>)
     history.goBack()
   }
 
@@ -140,7 +160,7 @@ const CreateUserInfo = props => {
               </Stepper>
               { activeStep === 0 &&
                 <div>
-                  <p style={style.text}>Credenciales (usuario actual)</p>
+                  <div style={style.text}>Credenciales (usuario actual)</div>
                   <Input 
                     label='Contraseña' 
                     placeholder='********'
@@ -149,6 +169,17 @@ const CreateUserInfo = props => {
                     required
                     onChange={e => setPassword(e.target.value)}
                     value={ password }
+                  />
+                  <br />
+                  <div style={style.text}>Usuario buscado</div>
+                  <Input 
+                    label='Usuario' 
+                    placeholder='p.ej. pruebas1'
+                    name='searchedUser'
+                    type='text'
+                    required
+                    onChange={e => setSearchedUser(e.target.value)}
+                    value={ searchedUser }
                   />
                   <div className='info'>
                     <small style={style.message}>{messageA}</small>

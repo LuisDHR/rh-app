@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { withRouter, useHistory } from "react-router"
 import Title from '../components/Title'
 import MainButton from '../components/Button'
 import SearchInput from '../components/SearchInput'
 import CardUser from '../components/CardUser'
+import axios from 'axios'
 import { Grid, Container } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -13,25 +14,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function createData(usuario, correo, nombre, rol, telefono) {
-  return { usuario, correo, nombre, rol, telefono }
-}
-
-const rows = [
-  createData('pruebas1', 'correo@ejemplo.com', 'Luis D', 'ventas', '222-110-20-30'),
-  createData('pruebas2', 'correo@ejemplo.com', 'Luis H', 'ventas', '222-110-20-11'),
-  createData('pruebas3', 'correo@ejemplo.com', 'Luis R', 'ventas', '333-110-20-30'),
-  createData('pruebas4', 'correo@ejemplo.com', 'Luis W', 'ventas', '333-110-20-22'),
-  createData('pruebas5', 'correo@ejemplo.com', 'Luis', 'ventas', '22-21-10-20-30'),
-  createData('pruebas6', 'correo@ejemplo.com', 'Luis', 'ventas', '22-21-10-20-30'),
-  createData('pruebas7', 'correo@ejemplo.com', 'Luis', 'ventas', '22-21-10-20-30'),
-];
-
 function Users() {
   const history = useHistory()
   const classes = useStyles()
 
   const [busqueda, setBusqueda] = useState('')
+  const [usuarios, setUsuarios] = useState([])
+
+  useEffect(() => {
+    document.title = "RH Users"
+    axios.get('http://localhost/serviciosweb/rh-app/users.php')
+      .then(response => {
+        console.log(response.data.Data)
+        const arr = Object.values(response.data.Data)
+        const info = []
+        arr.forEach(item => {
+          const user = item
+          info.push({ user })
+        })
+        setUsuarios(info)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }, [])
 
   const handleBusqueda = (event) => {
     let resultado = event.target.value
@@ -43,9 +49,9 @@ function Users() {
   }
 
   const resultados = !busqueda
-      ? rows
-      : rows.filter(row =>
-          row.usuario.toLowerCase().includes(busqueda.toLowerCase())
+      ? usuarios
+      : usuarios.filter(row =>
+          row.user.toLowerCase().includes(busqueda.toLowerCase())
       )
 
   return (
@@ -76,13 +82,13 @@ function Users() {
           <Grid container
             spacing={2}
             direction="row"
-            justify="space-between"
+            justify="flex-start"
             alignItems="center"
           >
             {
               resultados.map((row) => (
-                <Grid item xs={12} sm={4} key={row.usuario}>
-                  <CardUser user={row.usuario} />
+                <Grid item xs={12} sm={4} key={row.user}>
+                  <CardUser user={row.user} />
                 </Grid>
               ))
             }

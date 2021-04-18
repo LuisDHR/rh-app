@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useLayoutEffect } from 'react'
 import Card from '../components/Card'
 import Title from '../components/Title'
 import Input from '../components/Input'
@@ -13,6 +13,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles'
 import { withRouter, useHistory } from "react-router"
 import { useParams } from 'react-router-dom'
+import axios from 'axios'
 // import { useAlert } from 'react-alert'
 
 const useStyles = makeStyles((theme) => ({
@@ -65,6 +66,10 @@ const UpdateUserInfo = props => {
   const [open, setOpen] = useState(false)
   const [activeStep, setActiveStep] = useState(0)
 
+  useLayoutEffect(() => {
+    document.title = "RH Update user"
+  })
+
   const handleNext = () => {
     console.log(user)
     if (password === '') {
@@ -79,9 +84,27 @@ const UpdateUserInfo = props => {
     setActiveStep(activeStep - 1);
   };
 
-  const handleOk = () => {
+  const handleOk = async () => {
+    let formData = new FormData()
+    formData.append("user", localStorage.getItem('user'))
+    formData.append("pass", password)
+    formData.append("searchedUser", user)
+    formData.append("correo", correo)
+    formData.append("nombre", nombre)
+    formData.append("rol", rol)
+    formData.append("telefono", telefono)
+
+    const url = 'http://localhost:80/serviciosweb/rh-app/updateUserInfo.php'
+
+    await axios.post(url, formData)
+      .then(response => {
+        console.log(response)
+      })
+      .catch(error => {
+          console.log(error)
+      })
+    
     setOpen(false)
-    history.goBack()
   }
 
   const handleCancel = () => {
@@ -112,9 +135,6 @@ const UpdateUserInfo = props => {
   }
 
   const handleCancelar = () => {
-    // let msj = "502: Contraseña incorrecta: al menos 8 caracteres y al menos un número."
-    // let msj = '503: Usuario a insertar incorrecto: debe ser alfanumérico y sin espacios.'
-    // alert.error(<div style={{ textTransform: 'initial' }}>{msj}</div>)
     history.goBack()
   }
 

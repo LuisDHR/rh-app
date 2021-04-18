@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Title from '../components/Title'
 import MainButton from '../components/Button'
 import SearchInput from '../components/SearchInput'
 import TableUsers from '../components/TableUsers'
+import axios from 'axios'
 import { Grid, Container } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { withRouter, useHistory } from "react-router"
@@ -13,25 +14,48 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function createData(usuario, correo, nombre, rol, telefono) {
-  return { usuario, correo, nombre, rol, telefono }
-}
-
-const rows = [
-  createData('pruebas1', 'correo@ejemplo.com', 'Luis D', 'ventas', '222-110-20-30'),
-  createData('pruebas2', 'correo@ejemplo.com', 'Luis H', 'almacen', '222-110-20-11'),
-  createData('pruebas3', 'correo@ejemplo.com', 'Luis R', 'ventas', '333-110-20-30'),
-  createData('pruebas4', 'correo@ejemplo.com', 'Luis W', 'ventas', '333-110-20-22'),
-  // createData('pruebas5', 'correo@ejemplo.com', 'Luis', 'ventas', '22-21-10-20-30'),
-  // createData('pruebas6', 'correo@ejemplo.com', 'Luis', 'ventas', '22-21-10-20-30'),
-  // createData('pruebas7', 'correo@ejemplo.com', 'Luis', 'ventas', '22-21-10-20-30'),
-];
-
-const UsersInfo = () => {
+const UsersInfo = (props) => {
   const classes = useStyles()
   const history = useHistory()
 
   const [busqueda, setBusqueda] = useState('')
+  const [usuarios, setUsuarios] = useState([])
+
+  useEffect(() => {
+    document.title = "RH Users info"
+    axios.get('http://localhost/serviciosweb/rh-app/usersInfo.php')
+      .then(response => {
+        console.log(Object.keys(response.data.Data))
+        const info = Object.keys(response.data.Data)
+        const arr = Object.values(response.data.Data)
+        const final = []
+
+        var index = 0
+        arr.forEach(item => {
+          const Nombre = item.Nombre
+          const Correo = item.Correo
+          const Rol = item.Rol
+          const Telefono = item.Telefono
+
+          const data = {
+            Nombre, Correo, Rol, Telefono
+          }
+
+          final.push({
+            ...data,
+            user: info[index]
+          })
+
+          index ++
+        })
+
+        console.log('Final: ', final)
+        setUsuarios(final)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }, [])
 
   const handleBusqueda = (event) => {
     let resultado = event.target.value
@@ -43,9 +67,9 @@ const UsersInfo = () => {
   }
 
   const resultados = !busqueda
-      ? rows
-      : rows.filter(row =>
-          row.nombre.toLowerCase().includes(busqueda.toLowerCase())
+      ? usuarios
+      : usuarios.filter(row =>
+          row.Nombre.toLowerCase().includes(busqueda.toLowerCase())
         )
 
   return (

@@ -39,9 +39,8 @@ const useStyles = makeStyles(() => ({
 }));
 
 const SidebarRh = props => {
-  const { open, variant, onClose, className, staticContext, ...rest } = props;
-
-  const classes = useStyles();
+  const { open, variant, onClose, className, staticContext, ...rest } = props
+  const classes = useStyles()
 
   return (
     <Drawer

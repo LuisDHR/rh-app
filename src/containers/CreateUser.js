@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useLayoutEffect } from 'react'
 import Card from '../components/Card'
 import Title from '../components/Title'
 import Input from '../components/Input'
@@ -10,7 +10,8 @@ import {
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { withRouter, useHistory } from "react-router"
-// import { useAlert } from 'react-alert'
+import axios from 'axios'
+import { useAlert } from 'react-alert'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,7 +37,7 @@ const style = {
 const CreateUser = props => {
   const history = useHistory()
   const classes = useStyles()
-  // const alert = useAlert()
+  const alert = useAlert()
 
   // const [user, setUser] = useState(localStorage.getItem('user'))
   const [password, setPassword] = useState('')
@@ -46,9 +47,44 @@ const CreateUser = props => {
   const [message, setMessage] = useState('')
   const [open, setOpen] = useState(false)
 
-  const handleOk = () => {
+  useLayoutEffect(() => {
+    document.title = "RH Update user"
+  })
+
+  const handleOk = async () => {
+    let formData = new FormData()
+    formData.append("user", localStorage.getItem('user'))
+    formData.append("pass", password)
+    formData.append("newUser", newUser)
+    formData.append("newPass", newPassword)
+
+    const url = 'http://localhost:80/serviciosweb/rh-app/createUser.php'
+
+    await axios.post(url, formData)
+      .then(response => {
+        console.log(response)
+        let msj = response.data.Code + ': ' + response.data.Message;
+        if (response.data.Status !== 'Error') {
+          alert.success(
+            <div style={{ textTransform: 'initial' }}>
+              {msj}
+            </div>
+          )
+          history.goBack()
+        }
+        else {
+          alert.error(
+            <div style={{ textTransform: 'initial' }}>
+              {msj}
+            </div>
+          )
+        }
+      })
+      .catch(error => {
+          console.log(error)
+      })
+
     setOpen(false)
-    history.goBack()
   }
 
   const handleCancel = () => {
@@ -86,9 +122,6 @@ const CreateUser = props => {
   }
 
   const handleCancelar = () => {
-    // let msj = "502: Contraseña incorrecta: al menos 8 caracteres y al menos un número."
-    // let msj = '503: Usuario a insertar incorrecto: debe ser alfanumérico y sin espacios.'
-    // alert.error(<div style={{ textTransform: 'initial' }}>{msj}</div>)
     history.goBack()
   }
 
@@ -111,7 +144,6 @@ const CreateUser = props => {
                   placeholder='********'
                   name='password' 
                   type='password'
-                  required
                   onChange={e => setPassword(e.target.value)}
                   value={ password }
                 />
@@ -120,18 +152,16 @@ const CreateUser = props => {
                 <Input
                   label='Usuario' 
                   placeholder='p.ej. pruebas1' 
-                  name='user' 
+                  name='newUser' 
                   type='text'
-                  required
                   onChange={ e => setNewUser(e.target.value) }
                   value={ newUser }
                 />
                 <Input
                   label='Contraseña' 
                   placeholder='********' 
-                  name='password' 
+                  name='newPassword' 
                   type='password'
-                  required
                   onChange={e => setNewPassword(e.target.value)}
                   value={ newPassword }
                 />

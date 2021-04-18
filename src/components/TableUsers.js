@@ -70,19 +70,19 @@ const TableUsers = (props) => {
           </TableHead>
           <TableBody>
             {rows.map((row) => (
-              <StyledTableRow key={row.usuario}>
+              <StyledTableRow key={row.user}>
                 <StyledTableCell align="left">
-                  <span>{row.usuario}</span> <br />
-                  <span style={{ fontSize: 14, color: '#999' }}>{row.correo}</span>
+                  <span>{row.user}</span> <br />
+                  <span style={{ fontSize: 14, color: '#999' }}>{row.Correo}</span>
                 </StyledTableCell>
-                <StyledTableCell align="left">{row.nombre}</StyledTableCell>
-                <StyledTableCell align="left">{row.rol}</StyledTableCell>
-                <StyledTableCell align="left">{row.telefono}</StyledTableCell>
+                <StyledTableCell align="left">{row.Nombre}</StyledTableCell>
+                <StyledTableCell align="left">{row.Rol}</StyledTableCell>
+                <StyledTableCell align="left">{row.Telefono}</StyledTableCell>
                 <StyledTableCell align="center">
                   <IconButton
                     color="inherit"
                     className={classes.icon}
-                    onClick={() => handleUpdate(row.usuario, row.correo, row.nombre, row.rol, row.telefono)}
+                    onClick={() => handleUpdate(row.user, row.Correo, row.Nombre, row.Rol, row.Telefono)}
                   >
                     <FontAwesomeIcon icon={faEdit} />
                   </IconButton></StyledTableCell>

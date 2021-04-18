@@ -28,7 +28,7 @@ function App() {
           layout={ MainRh }
         />
         <GuardRoute 
-          path="/rh/users/:user"
+          path="/rh/users/:oldUser"
           component={ UpdateUser }
           exact
           layout={ MainRh }
@@ -46,7 +46,7 @@ function App() {
           layout={ MainRh }
         />
         <GuardRoute 
-          path="/rh/usersInfo/:user/:email/:name/:role/:telephone"
+          path="/rh/usersInfo/:searchedUser/:email/:name/:role/:telephone"
           component={ UpdateUserInfo }
           exact
           layout={ MainRh }
