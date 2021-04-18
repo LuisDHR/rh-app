@@ -25,6 +25,8 @@ $userInfoJSON = [
     'rol' => "dfasdfasdf",
     'telefono' => "fasdfasdfasdf"
 ];
+
+print_r(json_encode($userInfoJSON, true));
 print_r($connection->setUserInfo("pruebas3", "12345678c",  "jose",  json_encode($userInfoJSON)));
 
 /*

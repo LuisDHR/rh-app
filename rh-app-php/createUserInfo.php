@@ -3,6 +3,7 @@ include './lib_php/Connection.php';
 
 header('Access-Control-Allow-Origin: *');
 
+
 if ( !empty( $_POST[ 'user' ] ) &&
      !empty( $_POST[ 'pass' ] ) &&
      !empty( $_POST[ 'searchedUser' ] ) &&
@@ -14,18 +15,18 @@ if ( !empty( $_POST[ 'user' ] ) &&
     $user = $_POST[ 'user' ];
     $pass = $_POST[ 'pass' ];
     $searchedUser = $_POST[ 'searchedUser' ];
+    
     $correo = $_POST[ 'correo' ];
     $nombre = $_POST[ 'nombre' ];
     $rol = $_POST[ 'rol' ];
     $telefono = $_POST[ 'telefono' ];
-
     $userInfoJSON = [
         'correo' => $correo,
         'nombre' => $nombre,
         'rol' => $rol,
         'telefono' => $telefono
     ];
-    $userInfoJSON = json_encode($userInfoJSON);
+    $userInfoJSON = json_encode($userInfoJSON, true);
 
     $connection = new Connection();
     $data = $connection->setUserInfo($user, $pass, $searchedUser, $userInfoJSON);

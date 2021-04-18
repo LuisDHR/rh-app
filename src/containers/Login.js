@@ -34,7 +34,7 @@ const Login = props => {
         const obj = response.data
         if (obj.Status !== 'Error') {
           localStorage.setItem("user", user.value)
-          history.push('/rh/users')
+          history.push('/rh/usersInfo')
         }
         else {
           let msj = "Error "+ obj.Code + ": " + obj.Message

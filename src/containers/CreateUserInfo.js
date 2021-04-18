@@ -13,7 +13,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles'
 import { withRouter, useHistory } from "react-router"
 import axios from 'axios'
-// import { useAlert } from 'react-alert'
+import { useAlert } from 'react-alert'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,7 +50,7 @@ const style = {
 const CreateUserInfo = props => {
   const history = useHistory()
   const classes = useStyles()
-  // const alert = useAlert()
+  const alert = useAlert()
 
   const [searchedUser, setSearchedUser] = useState('')
   const [password, setPassword] = useState('')
@@ -91,11 +91,28 @@ const CreateUserInfo = props => {
     formData.append("rol", rol)
     formData.append("telefono", telefono)
 
+    console.log(formData);
+
     const url = 'http://localhost:8080/serviciosweb/rh-app/createUserInfo.php'
 
     await axios.post(url, formData)
       .then(response => {
-        console.log(response)
+        console.log(response.data);
+        
+        const obj = response.data;
+        let msj = obj.Status+" "+ obj.Code + ": " + obj.Message;
+
+        if (obj.Status !== 'Error') {
+          alert.success(<div style={{ textTransform: 'initial' }}>{msj}</div>)
+          history.goBack()
+        }
+        else {
+          alert.error(
+            <div style={{ textTransform: 'initial' }}>
+              {msj}
+            </div>
+          )
+        }
       })
       .catch(error => {
           console.log(error)
