@@ -15,10 +15,12 @@ const Login = props => {
 
   const [user, setUser] = useState('')
   const [password, setPassword] = useState('')
+  const [buttonState, setButtonState] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     const { user, password } = e.target.elements
+    setButtonState(true)
 
     await axios.get(
       'http://localhost:80/serviciosweb/rh-app/login.php',
@@ -28,9 +30,9 @@ const Login = props => {
           pass: password.value
         }
       })
-      .then(response => {
+      .then(response => { 
         const obj = response.data
-        if (obj.Code === '602') {
+        if (obj.Status !== 'Error') {
           localStorage.setItem("user", user.value)
           history.push('/rh/users')
         }
@@ -43,10 +45,11 @@ const Login = props => {
       .catch(error => {
           console.log(error)
       })
+    setButtonState(false)
   }
 
   useLayoutEffect(() => {
-    document.title = "RH Update user"
+    document.title = "RH Login"
   })
 
   return (
@@ -78,7 +81,7 @@ const Login = props => {
               value={ password }
             />
             <br /><br />
-            <MainButton full={true}>Ingresar</MainButton>
+            <MainButton full={true} disabled={buttonState}>Ingresar</MainButton>
             <br /><br /><br />
           </form>
         </Card>

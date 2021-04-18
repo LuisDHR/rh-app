@@ -12,8 +12,8 @@ if ( !empty( $_POST[ 'user' ] ) &&
     $newUser = $_POST[ 'newUser' ];
     $newPass = $_POST[ 'newPass' ];
 
-    $conecction = new Conecction();
-    $data = $conecction->setUser( $user, $pass, $newUser, $newPass );
+    $connection = new Connection();
+    $data = $connection->setUser( $user, $pass, $newUser, $newPass );
 
     $res = [
         "Code" => $data->getCode(),

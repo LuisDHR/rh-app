@@ -6,26 +6,26 @@ class ResponseAbstract
     private $message;
     private $status;
 
-    public function __construct($_code, $_messgae, $_status) {
+    public function __construct($_code, $_message, $_status) {
         $this->code = $_code;
-        $this->message = $_messgae;
+        $this->message = $_message;
         $this->status = $_status;
     }
 
     public function getCode()
     {
-        return $this->$code;
+        return $this->code;
     }
 
-    public function getMesssage()
+    public function getMessage()
     {
-        return $this->$message;
+        return $this->message;
     }
 
     public function getStatus()
     {
-        return $this->$status;
+        return $this->status;
     }
 }
- 
+
 ?>

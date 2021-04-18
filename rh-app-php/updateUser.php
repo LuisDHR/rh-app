@@ -14,7 +14,7 @@ if ( !empty( $_POST[ 'user' ] ) &&
     $newUser = $_POST[ 'newUser' ];
     $newPass = $_POST[ 'newPass' ];
 
-    $connection = new Conecction();
+    $connection = new Connection();
     $data = $connection->updateUser( $user, $pass, $oldUser, $newUser, $newPass );
 
     $res = [

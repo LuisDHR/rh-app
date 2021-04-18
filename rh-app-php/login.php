@@ -1,68 +1,32 @@
 <?php
-$res_500 = [
-    "Code" => "500",
-    "Message" => "Usuario no reconocido.",
-    "Data" => 
-        [
-            "Correo" => null,
-            "Nombre" => null,
-            "Rol" => null,
-            "Telefono" => null
-        ],
-    "Status" => "Error"
-];
+include './lib_php/Connection.php';
 
-$res_501 = [
-    "Code" => "501",
-    "Message" => "Password no reconcido.",
-    "Data" => 
-        [
-            "Correo" => null,
-            "Nombre" => null,
-            "Rol" => null,
-            "Telefono" => null
-        ],
-    "Status" => "Error"
-];
+if ( !empty( $_GET[ 'user' ] ) &&
+     !empty( $_GET[ 'pass' ] ) )
+{
+    $user = $_GET[ 'user' ];
+    $pass = $_GET[ 'pass' ];
 
-$res_504 = [
-    "Code" => "509",
-    "Message" => "Rol no válido.",
-    "Data" => 
-        [
-            "Correo" => null,
-            "Nombre" => null,
-            "Rol" => null,
-            "Telefono" => null
-        ],
-    "Status" => "Error"
-];
+    $connection = new Connection();
+    $data = $connection->getDetailsUserInfo( $user, $pass );
 
-$res_602 = [
-    "Code" => "602",
-    "Message" => "Obtener lista de información de todos usuarios.",
-    "Data" => 
-        [
-            "Correo" => "correo@ejemplo.com",
-            "Nombre" => "Julia",
-            "Rol" => "rh",
-            "Telefono" => "222-444-6688"
-        ],
-    "Status" => "Succes"
-];
+    $res = [
+        "Code" => $data->getCode(),
+        "Message" => $data->getMessage(),
+        "Data" => $data->getData(),
+        "Status" => $data->getStatus()
+    ];
 
-$user = $_GET['user'];
-$pass = $_GET['pass'];
-
-if ( $user == 'LuisX' ) {
-    echo json_encode($res_500);
+    echo json_encode( $res );
 }
-elseif ( $pass == '1234' ) {
-    echo json_encode($res_501);
-}
-elseif ( $user == 'pruebas1' ) {
-    echo json_encode($res_504);
-}
-elseif ( $user == 'pruebas3' && $pass == '12345678c' ) {
-    echo json_encode($res_602);
+else
+{
+    $res = [
+        "Code" => "999",
+        "Message" => "Error no identificado.",
+        "Data" => "",
+        "Status" => "Error"
+    ];
+
+    echo json_encode( $res );
 }

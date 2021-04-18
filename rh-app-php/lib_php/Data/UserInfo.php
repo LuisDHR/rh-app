@@ -16,22 +16,22 @@ class UserInfo
 
     public function getCorreo()
     {
-        return $this->$code;
+        return $this->correo;
     }
 
     public function getNombre()
     {
-        return $this->$nombre;
+        return $this->nombre;
     }
 
     public function getRol()
     {
-        return $this->$rol;
+        return $this->rol;
     }
 
     public function getTelefono()
     {
-        return $this->$telefono;
+        return $this->telefono;
     }
 }
  

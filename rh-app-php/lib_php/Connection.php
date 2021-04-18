@@ -9,7 +9,7 @@ include 'Responses/ResponseGetUsersInfo.php';
 
 include 'Data/UserInfo.php';
 
-class Conecction
+class Connection
 {
     private $url;
     
@@ -20,7 +20,7 @@ class Conecction
     
     public function setUser($user, $pass, $newUser, $newPass)
     {
-        $auxURL = $this->url."/user/?user=".$user."&pass=".$pass."&newUser=".$newUser."&newPass=".$newPass;
+        $auxURL = $this->url."/user?user=".$user."&pass=".$pass."&newUser=".$newUser."&newPass=".$newPass;
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $auxURL);
@@ -45,10 +45,10 @@ class Conecction
         return $res;
     }
 
-    public function update($user, $pass, $oldUser, $newUser, $newPass)
+    public function updateUser($user, $pass, $oldUser, $newUser, $newPass)
     {
-        $auxURL = $this->url."/user/?user=".$user."&pass=".$pass."&oldUser=".$oldUser.   "&newUser=".$newUser.  "&newPass=".$newPass;
-        
+        $auxURL = $this->url."/user?user=".$user."&pass=".$pass."&oldUser=".$oldUser."&newUser=".$newUser."&newPass=".$newPass;
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $auxURL);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -97,7 +97,7 @@ class Conecction
 
     public function getDetailsUser($user)
     {
-        $auxURL = $this->url."/user/?user=".$user;
+        $auxURL = $this->url."/user?user=".$user;
 
         $ch =  curl_init();
         curl_setopt($ch, CURLOPT_URL, $auxURL);
@@ -120,7 +120,7 @@ class Conecction
 
     public function setUserInfo($user, $pass, $searchedUser, $userInfoJSON)
     {
-        $auxURL = $this->url."/UserInfo/?user=".$user."&pass=".$pass."&searchedUser=".$searchedUser."&userInfoJSON=".$userInfoJSON;
+        $auxURL = $this->url."/UserInfo?user=".$user."&pass=".$pass."&searchedUser=".$searchedUser."&userInfoJSON=".$userInfoJSON;
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $auxURL);
@@ -147,7 +147,7 @@ class Conecction
 
     public function updateUserInfo($user, $pass, $searchedUser, $userInfoJSON)
     {
-        $auxURL = $this->url."/UserInfo/?user=".$user."&pass=".$pass."&searchedUser=".$searchedUser."&userInfoJSON=".$userInfoJSON;
+        $auxURL = $this->url."/UserInfo?user=".$user."&pass=".$pass."&searchedUser=".$searchedUser."&userInfoJSON=".$userInfoJSON;
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $auxURL);
@@ -176,6 +176,30 @@ class Conecction
     public function getUsersInfo()
     {
         $auxURL =  $this->url."/UserInfo";
+
+        $ch =  curl_init();
+        curl_setopt($ch, CURLOPT_URL, $auxURL);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+        $response = json_decode(curl_exec($ch), true);
+        curl_close($ch);
+
+        $res = new ResponseGetUsersInfo(
+            $response["Code"],
+            $response["Message"],
+            $response["Data"],
+            $response["Status"]
+        );
+
+        return $res;
+    }
+
+    // Para login
+    public function getDetailsUserInfo($user, $pass)
+    {
+        $auxURL =  $this->url."/UserInfo?user=".$user."&pass=".$pass;
 
         $ch =  curl_init();
         curl_setopt($ch, CURLOPT_URL, $auxURL);
