@@ -1,6 +1,7 @@
 <?php
-header('Access-Control-Allow-Origin', '*');
 include './lib_php/Connection.php';
+
+header('Access-Control-Allow-Origin: *');
 
 $connection = new Connection();
 

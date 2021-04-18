@@ -73,11 +73,11 @@ class Connection
         return $res;
     }
     
-    public function getUsers($document)
+    public function getUsers()
     {
         $auxURL = $this->url."/user";
         $ch =  curl_init();
-        curl_setopt($ch, CURLOPT_URL, $auxURL.$document);
+        curl_setopt($ch, CURLOPT_URL, $auxURL);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);

@@ -1,8 +1,9 @@
 <?php
 include './lib_php/Connection.php';
 
-if ( !empty( $_GET[ 'user' ] ) &&
-     !empty( $_GET[ 'pass' ] ) )
+header('Access-Control-Allow-Origin: *');
+
+if ( !empty( $_GET[ 'user' ] ) && !empty( $_GET[ 'pass' ] ) )
 {
     $user = $_GET[ 'user' ];
     $pass = $_GET[ 'pass' ];
