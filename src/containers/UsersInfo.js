@@ -23,7 +23,7 @@ const UsersInfo = (props) => {
 
   useEffect(() => {
     document.title = "RH Users info"
-    axios.get('http://localhost/serviciosweb/rh-app/usersInfo.php')
+    axios.get('http://localhost:8080/serviciosweb/rh-app/usersInfo.php')
       .then(response => {
         console.log(Object.keys(response.data.Data))
         const info = Object.keys(response.data.Data)

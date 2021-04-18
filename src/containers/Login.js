@@ -23,7 +23,7 @@ const Login = props => {
     setButtonState(true)
 
     await axios.get(
-      'http://localhost:80/serviciosweb/rh-app/login.php',
+      'http://localhost:8080/serviciosweb/rh-app/login.php',
       {
         params: {
           user: user.value,

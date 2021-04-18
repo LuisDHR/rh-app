@@ -4,7 +4,7 @@ include 'Connection.php';
 
 $connection = new Connection();
 
-
+/*
 print_r("set USER");
 print_r($connection->setUser("pruebas1", "87654321a", "JOSECARLOS", "asd"));
 
@@ -16,10 +16,18 @@ print_r($connection->getUsers());
 
 print_r("get DETAILS USER");
 print_r($connection->getDetailsUser("pruebas1"));
+*/
 
 print_r("get SET USER INFO ");
-print_r($connection->setUserInfo("pruebas2", "12345678b",  "jose", "{}"));
+$userInfoJSON = [
+    'correo' => "asdfasdf",
+    'nombre' => "asdfasdf",
+    'rol' => "dfasdfasdf",
+    'telefono' => "fasdfasdfasdf"
+];
+print_r($connection->setUserInfo("pruebas3", "12345678c",  "jose",  json_encode($userInfoJSON)));
 
+/*
 print_r("get UPDATE USER INFO ");
 print_r($connection->updateUserInfo("pruebas2", "12345678b",  "jose", "{}"));
 
@@ -27,6 +35,6 @@ print_r("get USERS INFO ");
 print_r($connection->getUsersInfo());
 
 print_r("LOGIN");
-print_r($connection->getDetailsUserInfo($user, $pass));
-
+print_r($connection->getDetailsUserInfo("pruebas1", "12345678a"));
+*/
 ?>

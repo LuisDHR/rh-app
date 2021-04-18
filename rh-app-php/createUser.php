@@ -1,6 +1,8 @@
 <?php
-header('Access-Control-Allow-Origin', '*');
+
 include './lib_php/Connection.php';
+
+header('Access-Control-Allow-Origin: *');
 
 if ( !empty( $_POST[ 'user' ] ) &&
      !empty( $_POST[ 'pass' ] ) &&

@@ -23,7 +23,7 @@ function Users() {
 
   useEffect(() => {
     document.title = "RH Users"
-    axios.get('http://localhost/serviciosweb/rh-app/users.php')
+    axios.get('http://localhost:8080/serviciosweb/rh-app/users.php')
       .then(response => {
         console.log(response.data.Data)
         const arr = Object.values(response.data.Data)

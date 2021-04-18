@@ -94,7 +94,7 @@ const UpdateUserInfo = props => {
     formData.append("rol", rol)
     formData.append("telefono", telefono)
 
-    const url = 'http://localhost:80/serviciosweb/rh-app/updateUserInfo.php'
+    const url = 'http://localhost:8080/serviciosweb/rh-app/updateUserInfo.php'
 
     await axios.post(url, formData)
       .then(response => {

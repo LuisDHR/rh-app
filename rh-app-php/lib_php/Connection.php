@@ -121,7 +121,6 @@ class Connection
     public function setUserInfo($user, $pass, $searchedUser, $userInfoJSON)
     {
         $auxURL = $this->url."/UserInfo?user=".$user."&pass=".$pass."&searchedUser=".$searchedUser."&userInfoJSON=".$userInfoJSON;
-
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $auxURL);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

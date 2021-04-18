@@ -91,7 +91,7 @@ const CreateUserInfo = props => {
     formData.append("rol", rol)
     formData.append("telefono", telefono)
 
-    const url = 'http://localhost:80/serviciosweb/rh-app/createUserInfo.php'
+    const url = 'http://localhost:8080/serviciosweb/rh-app/createUserInfo.php'
 
     await axios.post(url, formData)
       .then(response => {

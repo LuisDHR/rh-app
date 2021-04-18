@@ -58,7 +58,7 @@ const CreateUser = props => {
     formData.append("newUser", newUser)
     formData.append("newPass", newPassword)
 
-    const url = 'http://localhost:80/serviciosweb/rh-app/createUser.php'
+    const url = 'http://localhost:8080/serviciosweb/rh-app/createUser.php'
 
     await axios.post(url, formData)
       .then(response => {
