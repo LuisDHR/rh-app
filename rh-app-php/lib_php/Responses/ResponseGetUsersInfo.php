@@ -1,8 +1,6 @@
 <?php
 
-include 'ResponseAbstract.php';
-
-class ResponseSetUser extends ResponseAbstract
+class ResponseGetUsersInfo extends ResponseAbstract
 {
     private $data;
 

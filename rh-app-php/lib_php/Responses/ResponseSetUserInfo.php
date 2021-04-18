@@ -1,8 +1,6 @@
-<?php
+<?php  
 
-include 'ResponseAbstract.php';
-
-class ResponseSetUser extends ResponseAbstract
+class ResponseSetUserInfo extends ResponseAbstract
 {
     private $data;
 
@@ -17,5 +15,5 @@ class ResponseSetUser extends ResponseAbstract
         return $this->$data;
     }
 }
- 
+
 ?>

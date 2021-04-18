@@ -1,6 +1,6 @@
 <?php
 
-class ResponseGetUsers extends ResponseAbstract
+class ResponseGesUsers extends ResponseAbstract
 {
     private $data;
 
@@ -12,7 +12,7 @@ class ResponseGetUsers extends ResponseAbstract
 
     public function getData()
     {
-        return $this->data;
+        return $this->$data;
     }
 }
  

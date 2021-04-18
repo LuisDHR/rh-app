@@ -2,13 +2,13 @@
 
 class UserInfo
 {
-    private $correo;
+    private $corre;
     private $nombre;
     private $rol;
     private $telefono;
 
     public function __construct($_correo, $_nombre, $_rol, $_telefono) {
-        $this->correo = $_correo;
+        $this->corre = $_correo;
         $this->nombre = $_nombre;
         $this->rol = $_rol;
         $this->telefono = $_telefono;
@@ -16,22 +16,22 @@ class UserInfo
 
     public function getCorreo()
     {
-        return $this->correo;
+        return $this->$code;
     }
 
     public function getNombre()
     {
-        return $this->nombre;
+        return $this->$nombre;
     }
 
     public function getRol()
     {
-        return $this->rol;
+        return $this->$rol;
     }
 
     public function getTelefono()
     {
-        return $this->telefono;
+        return $this->$telefono;
     }
 }
  
