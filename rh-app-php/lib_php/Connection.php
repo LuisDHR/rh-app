@@ -58,7 +58,6 @@ class Connection
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         
-        $response = curl_exec($ch);
         $response = json_decode(curl_exec($ch), true);
 
         curl_close($ch);
@@ -120,7 +119,9 @@ class Connection
 
     public function setUserInfo($user, $pass, $searchedUser, $userInfoJSON)
     {
-        $auxURL = $this->url."/UserInfo?user=".$user."&pass=".$pass."&searchedUser=".$searchedUser."&userInfoJSON=".$userInfoJSON;
+        $auxURL = $this->url."/UserInfo/?user=".$user."&pass=".$pass."&searchedUser=".$searchedUser."&userInfoJSON=".$userInfoJSON;
+        // https://localhost:44318/api/UserInfo/?user=pruebas3&pass=12345678c&searchedUser=kimxd&userInfoJSON={ "correo":  "asdf" , "nombre":"ASDF",  "rol":"rh", "telefono":"234"}
+        
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $auxURL);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -146,7 +147,11 @@ class Connection
 
     public function updateUserInfo($user, $pass, $searchedUser, $userInfoJSON)
     {
-        $auxURL = $this->url."/UserInfo?user=".$user."&pass=".$pass."&searchedUser=".$searchedUser."&userInfoJSON=".$userInfoJSON;
+        $auxURL = $this->url."/UserInfo".
+        "/?user=".$user.
+        "&pass=".$pass.
+        "&searchedUser=".$searchedUser.
+        "&userInfoJSON=".$userInfoJSON;
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $auxURL);
@@ -157,7 +162,6 @@ class Connection
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         
-        $response = curl_exec($ch);
         $response = json_decode(curl_exec($ch), true);
 
         curl_close($ch);

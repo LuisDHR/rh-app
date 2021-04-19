@@ -26,7 +26,9 @@ if ( !empty( $_POST[ 'user' ] ) &&
         'rol' => $rol,
         'telefono' => $telefono
     ];
-    $userInfoJSON = json_encode($userInfoJSON, true);
+    $userInfoJSON = json_encode($userInfoJSON);
+
+    // echo $userInfoJSON;
 
     $connection = new Connection();
     $data = $connection->setUserInfo($user, $pass, $searchedUser, $userInfoJSON);

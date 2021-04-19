@@ -1,5 +1,4 @@
 <?php
-
 include './lib_php/Connection.php';
 
 header('Access-Control-Allow-Origin: *');

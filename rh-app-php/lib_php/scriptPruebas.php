@@ -16,23 +16,31 @@ print_r($connection->getUsers());
 
 print_r("get DETAILS USER");
 print_r($connection->getDetailsUser("pruebas1"));
-*/
 
-print_r("get SET USER INFO ");
+
+print_r("get UPDATE USER INFO ");
 $userInfoJSON = [
     'correo' => "asdfasdf",
     'nombre' => "asdfasdf",
     'rol' => "dfasdfasdf",
     'telefono' => "fasdfasdfasdf"
 ];
+$userInfoJSON = json_encode($userInfoJSON);
+print_r("get SET USER INFO ");
+print_r($connection->setUserInfo("pruebas3", "12345678c",  "kimxd",  $userInfoJSON));
+*/
 
-print_r(json_encode($userInfoJSON, true));
-print_r($connection->setUserInfo("pruebas3", "12345678c",  "jose",  json_encode($userInfoJSON)));
+$userInfoJSON = [
+    'correo' => "asdfasdf",
+    'nombre' => "asdfasdf",
+    'rol' => "dfasdfasdf",
+    'telefono' => "fasdfasdfasdf"
+];
+$userInfoJSON = json_encode($userInfoJSON);
+print_r("get UPDATE USER INFO ");
+print_r($connection->updateUserInfo("pruebas3", "12345678c",  "fsdzfsd", $userInfoJSON));
 
 /*
-print_r("get UPDATE USER INFO ");
-print_r($connection->updateUserInfo("pruebas2", "12345678b",  "jose", "{}"));
-
 print_r("get USERS INFO ");
 print_r($connection->getUsersInfo());
 

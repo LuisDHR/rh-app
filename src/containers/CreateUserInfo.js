@@ -82,12 +82,15 @@ const CreateUserInfo = props => {
   };
 
   const handleOk = async () => {
+    const nombreSinEsp= nombre.replaceAll(' ', '%20')
+    console.log(nombreSinEsp)
+
     let formData = new FormData()
     formData.append("user", localStorage.getItem('user'))
     formData.append("pass", password)
     formData.append("searchedUser", searchedUser)
     formData.append("correo", correo)
-    formData.append("nombre", nombre)
+    formData.append("nombre", nombreSinEsp)
     formData.append("rol", rol)
     formData.append("telefono", telefono)
 
@@ -97,12 +100,12 @@ const CreateUserInfo = props => {
 
     await axios.post(url, formData)
       .then(response => {
-        console.log(response.data);
+        console.log(response);
         
         const obj = response.data;
         let msj = obj.Status+" "+ obj.Code + ": " + obj.Message;
 
-        if (obj.Status !== 'Error') {
+        if (obj.Status === 'Success') {
           alert.success(<div style={{ textTransform: 'initial' }}>{msj}</div>)
           history.goBack()
         }

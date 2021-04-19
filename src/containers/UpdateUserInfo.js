@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { withRouter, useHistory } from "react-router"
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
-// import { useAlert } from 'react-alert'
+import { useAlert } from 'react-alert'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,13 +48,13 @@ const style = {
 }
 
 const UpdateUserInfo = props => {
-  const { user, email, name, role, telephone } = useParams()
+  const { searchedUser, email, name, role, telephone } = useParams()
   
   const history = useHistory()
   const classes = useStyles()
-  // const alert = useAlert()
+  const alert = useAlert()
 
-  // const [usuario] = useState(user)
+  // const [usuario] = useState(searchedUser)
   const [password, setPassword] = useState('')
   const [correo, setCorreo] = useState(email)
   const [nombre, setNombre] = useState(name)
@@ -71,7 +71,7 @@ const UpdateUserInfo = props => {
   })
 
   const handleNext = () => {
-    console.log(user)
+    console.log(searchedUser)
     if (password === '') {
       setMessageA('Ingrese todos los datos solicitados.')
       return
@@ -85,12 +85,15 @@ const UpdateUserInfo = props => {
   };
 
   const handleOk = async () => {
+    const nombreSinEsp= nombre.replaceAll(' ', '%20')
+    console.log(nombreSinEsp)
+
     let formData = new FormData()
     formData.append("user", localStorage.getItem('user'))
     formData.append("pass", password)
-    formData.append("searchedUser", user)
+    formData.append("searchedUser", searchedUser)
     formData.append("correo", correo)
-    formData.append("nombre", nombre)
+    formData.append("nombre", nombreSinEsp)
     formData.append("rol", rol)
     formData.append("telefono", telefono)
 
@@ -98,7 +101,24 @@ const UpdateUserInfo = props => {
 
     await axios.post(url, formData)
       .then(response => {
+
+        console.log(Object.values(formData))
         console.log(response)
+
+        const obj = response.data;
+        let msj = obj.Status+" "+ obj.Code + ": " + obj.Message;
+
+        if (obj.Status === 'Success') {
+          alert.success(<div style={{ textTransform: 'initial' }}>{msj}</div>)
+          history.goBack()
+        }
+        else {
+          alert.error(
+            <div style={{ textTransform: 'initial' }}>
+              {msj}
+            </div>
+          )
+        }
       })
       .catch(error => {
           console.log(error)
