@@ -23,20 +23,25 @@ function Users() {
 
   useEffect(() => {
     document.title = "RH Users"
+
     axios.get('http://localhost:8080/serviciosweb/rh-app/users.php')
-      .then(response => {
-        console.log(response.data.Data)
-        const arr = Object.values(response.data.Data)
-        const info = []
-        arr.forEach(item => {
-          const user = item
+    .then(response => {
+      const arr = Object.values(response.data.Data)
+      const info = []
+      const currentUser = localStorage.getItem('user')
+
+      arr.forEach(item => {
+        const user = item
+
+        if (user !== currentUser)
           info.push({ user })
-        })
-        setUsuarios(info)
       })
-      .catch(error => {
-        console.log(error)
-      })
+
+      setUsuarios(info)
+    })
+    .catch(error => {
+      console.log(error)
+    })
   }, [])
 
   const handleBusqueda = (event) => {

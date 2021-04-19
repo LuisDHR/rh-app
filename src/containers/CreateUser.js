@@ -6,7 +6,7 @@ import MainButton from '../components/Button'
 import SecondaryButton from '../components/SecondaryButton'
 import { 
   Grid, Container, Dialog, DialogContent,
-  DialogTitle, Typography, DialogActions
+  DialogTitle, Typography, DialogActions, CircularProgress
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { withRouter, useHistory } from "react-router"
@@ -15,8 +15,35 @@ import { useAlert } from 'react-alert'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-      padding: theme.spacing(2),
+    padding: theme.spacing(2),
+    display: 'flex',
+    alignItems: 'center',
   },
+  wrapper: {
+    margin: theme.spacing(1),
+    position: 'relative',
+  },
+  buttonProgress: {
+    color: '#0ba360',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12,
+  },
+  dialogTitle: {
+    textTransform: 'none',
+    fontFamily: 'Mulish, sans-serif',
+    fontSize: '18px',
+    fontWeight: 800,
+  },
+  text: {
+    textTransform: 'none',
+    fontFamily: 'Mulish, sans-serif',
+    fontSize: '16px',
+    fontWeight: 600,
+    textAlign: 'center'
+  }
 }));
 
 const style = {
@@ -34,24 +61,27 @@ const style = {
   }
 }
 
-const CreateUser = props => {
+const CreateUser = () => {
   const history = useHistory()
   const classes = useStyles()
   const alert = useAlert()
 
-  // const [user, setUser] = useState(localStorage.getItem('user'))
   const [password, setPassword] = useState('')
   const [newUser, setNewUser] = useState('')
   const [newPassword, setNewPassword] = useState('')
 
   const [message, setMessage] = useState('')
   const [open, setOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   useLayoutEffect(() => {
-    document.title = "RH Update user"
+    document.title = "Create user"
   })
 
   const handleOk = async () => {
+    setOpen(false)
+    setLoading(true)
+
     let formData = new FormData()
     formData.append("user", localStorage.getItem('user'))
     formData.append("pass", password)
@@ -64,7 +94,7 @@ const CreateUser = props => {
       .then(response => {
         console.log(response)
         let msj = response.data.Code + ': ' + response.data.Message;
-        if (response.data.Status !== 'Error') {
+        if (response.data.Status === 'Successfully') {
           alert.success(
             <div style={{ textTransform: 'initial' }}>
               {msj}
@@ -83,8 +113,8 @@ const CreateUser = props => {
       .catch(error => {
           console.log(error)
       })
-
-    setOpen(false)
+    
+    setLoading(false)
   }
 
   const handleCancel = () => {
@@ -174,18 +204,25 @@ const CreateUser = props => {
                   alignItems: 'center',
                   justifyContent: 'space-between' 
                 }}>
-                  <MainButton 
-                    full={false}
-                    onClick={handleSubmit}
-                  >
-                    Guardar
-                  </MainButton>
-                  <SecondaryButton 
-                    full={false}
-                    onClick={handleCancelar}
-                  >
-                    Cancelar
-                  </SecondaryButton>
+                  <div className={classes.wrapper}>
+                    <MainButton 
+                      full={false}
+                      onClick={handleSubmit}
+                      disabled={loading}
+                    >
+                      Guardar
+                    </MainButton>
+                    {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
+                  </div>
+                  <div className={classes.wrapper}>
+                    <SecondaryButton 
+                      full={false}
+                      onClick={handleCancelar}
+                      disabled={loading}
+                    >
+                      Cancelar
+                    </SecondaryButton>
+                  </div>
                 </div>
             </Card>
           </Grid>

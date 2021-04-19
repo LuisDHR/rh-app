@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UsersInfo = (props) => {
+const UsersInfo = () => {
   const classes = useStyles()
   const history = useHistory()
 
@@ -23,34 +23,31 @@ const UsersInfo = (props) => {
 
   useEffect(() => {
     document.title = "RH Users info"
+
     axios.get('http://localhost:8080/serviciosweb/rh-app/usersInfo.php')
       .then(response => {
-        console.log(Object.keys(response.data.Data))
-        const info = Object.keys(response.data.Data)
+        const keys = Object.keys(response.data.Data)
         const arr = Object.values(response.data.Data)
-        const final = []
+        const info = []
+        const currentUser = localStorage.getItem('user')
 
         var index = 0
         arr.forEach(item => {
-          const Nombre = item.Nombre
-          const Correo = item.Correo
-          const Rol = item.Rol
-          const Telefono = item.Telefono
-
-          const data = {
-            Nombre, Correo, Rol, Telefono
+          if (keys[index] !== currentUser) {
+            const data = {
+              Nombre: item.Nombre, 
+              Correo: item.Correo, 
+              Rol: item.Rol, 
+              Telefono: item.Telefono,
+              user: keys[index]
+            }
+            info.push(data)
           }
-
-          final.push({
-            ...data,
-            user: info[index]
-          })
 
           index ++
         })
 
-        console.log('Final: ', final)
-        setUsuarios(final)
+        setUsuarios(info)
       })
       .catch(error => {
         console.log(error)

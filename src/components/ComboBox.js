@@ -44,6 +44,7 @@ const ComboBox = props => {
       >
         <option value="ventas" defaultValue>ventas</option>
         <option value="almacen">almacen</option>
+        <option value="rh">rh</option>
       </select>
     </div>
   )

@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   button: {
+    background: '#0ba360',
     backgroundImage: 'linear-gradient(to top, #0ba360 0%, #3cba92 100%)',
     textTransform: 'none',
     fontFamily: 'Mulish, sans-serif',
@@ -15,7 +16,11 @@ const useStyles = makeStyles((theme) => ({
     minWidth: '130px',
     '&:hover': {
 			backgroundImage: 'linear-gradient(to top, #0ba360 0%, #3cba92 50%)',
-		}
+		},
+    "&:disabled": {
+      background: "rgba(0, 0, 0, 0.12)",
+      boxShadow: "none"
+    }
   }
 
 }));

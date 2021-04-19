@@ -8,7 +8,7 @@ import SecondaryButton from '../components/SecondaryButton'
 import { 
   Grid, Container, Dialog, DialogContent,
   DialogTitle, Typography, DialogActions,
-  Stepper, StepLabel, Step
+  Stepper, StepLabel, Step, CircularProgress
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { withRouter, useHistory } from "react-router"
@@ -18,16 +18,38 @@ import { useAlert } from 'react-alert'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-      padding: theme.spacing(2),
+    padding: theme.spacing(2),
+    display: 'flex',
+    alignItems: 'center',
+  },
+  wrapper: {
+    margin: theme.spacing(1),
+    position: 'relative',
+  },
+  buttonProgress: {
+    color: '#0ba360',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12,
+  },
+  titleDialog: {
+    textTransform: 'none',
+    fontFamily: 'Mulish, sans-serif',
+    fontSize: '18px',
+    fontWeight: 800,
   },
   title: {
     textTransform: 'none',
     fontFamily: 'Mulish, sans-serif',
     fontSize: '16px',
-    fontWeight: 800,
+    fontWeight: 600,
+    textAlign: 'center'
   },
   stepper: {
     padding: theme.spacing(0, 0, 1),
+    margin: '5px',
   },
 }));
 
@@ -47,14 +69,13 @@ const style = {
   }
 }
 
-const UpdateUserInfo = props => {
+const UpdateUserInfo = () => {
   const { searchedUser, email, name, role, telephone } = useParams()
-  
+
   const history = useHistory()
   const classes = useStyles()
   const alert = useAlert()
 
-  // const [usuario] = useState(searchedUser)
   const [password, setPassword] = useState('')
   const [correo, setCorreo] = useState(email)
   const [nombre, setNombre] = useState(name)
@@ -65,13 +86,13 @@ const UpdateUserInfo = props => {
   const [messageB, setMessageB] = useState('')
   const [open, setOpen] = useState(false)
   const [activeStep, setActiveStep] = useState(0)
+  const [loading, setLoading] = useState(false)
 
   useLayoutEffect(() => {
     document.title = "RH Update user"
   })
 
   const handleNext = () => {
-    console.log(searchedUser)
     if (password === '') {
       setMessageA('Ingrese todos los datos solicitados.')
       return
@@ -85,8 +106,10 @@ const UpdateUserInfo = props => {
   };
 
   const handleOk = async () => {
+    setOpen(false)
+    setLoading(true)
+
     const nombreSinEsp= nombre.replaceAll(' ', '%20')
-    console.log(nombreSinEsp)
 
     let formData = new FormData()
     formData.append("user", localStorage.getItem('user'))
@@ -101,10 +124,6 @@ const UpdateUserInfo = props => {
 
     await axios.post(url, formData)
       .then(response => {
-
-        console.log(Object.values(formData))
-        console.log(response)
-
         const obj = response.data;
         let msj = obj.Status+" "+ obj.Code + ": " + obj.Message;
 
@@ -124,7 +143,7 @@ const UpdateUserInfo = props => {
           console.log(error)
       })
     
-    setOpen(false)
+    setLoading(false)
   }
 
   const handleCancel = () => {
@@ -263,18 +282,25 @@ const UpdateUserInfo = props => {
                     justifyContent: 'space-between',
                     minWidth: '275px',
                   }}>
-                    <MainButton 
-                      full={false}
-                      onClick={handleSubmit}
-                    >
-                      Guardar
-                    </MainButton>
-                    <SecondaryButton 
-                      full={false}
-                      onClick={handleBack}
-                    >
-                      Volver
-                    </SecondaryButton>
+                    <div className={classes.wrapper}>
+                      <MainButton 
+                        full={false}
+                        onClick={handleSubmit}
+                        disabled={loading}
+                      >
+                        Guardar
+                      </MainButton>
+                      {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
+                    </div>
+                    <div className={classes.wrapper}>
+                      <SecondaryButton 
+                        full={false}
+                        onClick={handleBack}
+                        disabled={loading}
+                      >
+                        Volver
+                      </SecondaryButton>
+                    </div>
                   </div>
                 </div>
               }

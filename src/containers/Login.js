@@ -22,6 +22,8 @@ const Login = props => {
     const { user, password } = e.target.elements
     setButtonState(true)
 
+    let mounted = false;
+
     await axios.get(
       'http://localhost:8080/serviciosweb/rh-app/login.php',
       {
@@ -32,9 +34,9 @@ const Login = props => {
       })
       .then(response => { 
         const obj = response.data
-        if (obj.Status !== 'Error') {
+        if (obj.Status === 'Succes') {
           localStorage.setItem("user", user.value)
-          history.push('/rh/usersInfo')
+          mounted = true
         }
         else {
           let msj = "Error "+ obj.Code + ": " + obj.Message
@@ -45,12 +47,16 @@ const Login = props => {
       .catch(error => {
           console.log(error)
       })
-    setButtonState(false)
+
+    if (mounted) {
+      setButtonState(false)
+      history.push('/rh/users')
+    }
   }
 
   useLayoutEffect(() => {
     document.title = "RH Login"
-  })
+  }, [])
 
   return (
     <div>

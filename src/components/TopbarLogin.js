@@ -2,7 +2,6 @@ import Logo from '../assets/Logo.png'
 import Logo2 from '../assets/Logo2.png'
 
 const style = {
-  borderBottom: 'solid 1px #aaa',
   fontFamily: 'Mulish, sans-serif',
   fontSize: '18px',
   fontWeight: 800,
