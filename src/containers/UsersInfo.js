@@ -22,8 +22,6 @@ const UsersInfo = () => {
   const [usuarios, setUsuarios] = useState([])
 
   useEffect(() => {
-    document.title = "RH Users info"
-
     axios.get('http://localhost:8080/serviciosweb/rh-app/usersInfo.php')
       .then(response => {
         const keys = Object.keys(response.data.Data)

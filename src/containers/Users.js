@@ -22,8 +22,6 @@ function Users() {
   const [usuarios, setUsuarios] = useState([])
 
   useEffect(() => {
-    document.title = "RH Users"
-
     axios.get('http://localhost:8080/serviciosweb/rh-app/users.php')
     .then(response => {
       const arr = Object.values(response.data.Data)

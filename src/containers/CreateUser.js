@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect } from 'react'
+import { useState } from 'react'
 import Card from '../components/Card'
 import Title from '../components/Title'
 import Input from '../components/Input'
@@ -73,10 +73,6 @@ const CreateUser = () => {
   const [message, setMessage] = useState('')
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
-
-  useLayoutEffect(() => {
-    document.title = "Create user"
-  })
 
   const handleOk = async () => {
     setOpen(false)

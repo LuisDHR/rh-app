@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect } from 'react'
+import { useState } from 'react'
 import Card from '../components/Card'
 import Container from '../components/Container'
 import Title from '../components/Title'
@@ -48,15 +48,11 @@ const Login = props => {
           console.log(error)
       })
 
+    setButtonState(false)
     if (mounted) {
-      setButtonState(false)
       history.push('/rh/users')
     }
   }
-
-  useLayoutEffect(() => {
-    document.title = "RH Login"
-  }, [])
 
   return (
     <div>

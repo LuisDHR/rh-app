@@ -1,11 +1,11 @@
-import { useState, useLayoutEffect } from 'react'
+import { useState } from 'react'
 import Card from '../components/Card'
 import Title from '../components/Title'
 import Input from '../components/Input'
 import ComboBox from '../components/ComboBox'
 import MainButton from '../components/Button'
 import SecondaryButton from '../components/SecondaryButton'
-import { 
+import {
   Grid, Container, Dialog, DialogContent,
   DialogTitle, Typography, DialogActions,
   Stepper, StepLabel, Step, CircularProgress
@@ -88,10 +88,6 @@ const UpdateUserInfo = () => {
   const [activeStep, setActiveStep] = useState(0)
   const [loading, setLoading] = useState(false)
 
-  useLayoutEffect(() => {
-    document.title = "RH Update user"
-  })
-
   const handleNext = () => {
     if (password === '') {
       setMessageA('Ingrese todos los datos solicitados.')
@@ -125,7 +121,7 @@ const UpdateUserInfo = () => {
     await axios.post(url, formData)
       .then(response => {
         const obj = response.data;
-        let msj = obj.Status+" "+ obj.Code + ": " + obj.Message;
+        let msj = obj.Code + ": " + obj.Message;
 
         if (obj.Status === 'Success') {
           alert.success(<div style={{ textTransform: 'initial' }}>{msj}</div>)
